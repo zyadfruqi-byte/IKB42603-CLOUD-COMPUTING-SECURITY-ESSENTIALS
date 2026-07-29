@@ -22,9 +22,10 @@ Docker provides the underlying container runtime necessary to deploy microservic
 * **Version Inspection:** `docker --version`
 * **Runtime Verification Test:** `docker run --rm hello-world`[cite: 1]
 
-> **<img width="1544" height="800" alt="image" src="https://github.com/user-attachments/assets/f68da26a-7b4f-4fc4-8d05-5b0506f91de1" /
+<img width="1852" height="471" alt="Screenshot 2026-07-27 203156" src="https://github.com/user-attachments/assets/553e61ee-1401-449f-a445-e4a102316ca8" />
+<img width="953" height="90" alt="Screenshot 2026-07-29 212509" src="https://github.com/user-attachments/assets/39fb92ba-58e0-4f78-bfb2-3893d89091e2" />
+<img width="1022" height="713" alt="Screenshot 2026-07-29 212632" src="https://github.com/user-attachments/assets/b1edd830-f193-45c6-99a9-8965f88f55ef" />
 
-**
 
 ---
 
@@ -33,7 +34,9 @@ The secondary generation AWS CLI was deployed to facilitate interaction with sim
 
 * **Version Inspection:** `aws --version`[cite: 1]
 
-> **<img width="1286" height="134" alt="image" src="https://github.com/user-attachments/assets/49c5a1f8-193c-45e9-97e2-a63c510b0195" />
+<img width="1032" height="165" alt="Screenshot 2026-07-29 190410" src="https://github.com/user-attachments/assets/413b0709-942b-4914-a149-c1bed5cab640" />
+<img width="947" height="97" alt="Screenshot 2026-07-29 190520" src="https://github.com/user-attachments/assets/b1b66c5a-a055-448e-9867-6a9a84280ea9" />
+
 **
 ---
 
@@ -43,8 +46,9 @@ The `kind` (Kubernetes-in-Docker) tool and `kubectl` administrative client were 
 * **kind Tool Version:** `kind --version`[cite: 1]
 * **kubectl Client Binary:** `kubectl version --client`[cite: 1]
 
-> **<img width="630" height="302" alt="image" src="https://github.com/user-attachments/assets/c108f944-f11b-43c5-9332-6765f92fd30e" />
-**
+<img width="306" height="97" alt="Screenshot 2026-07-29 190848" src="https://github.com/user-attachments/assets/020fe327-d28a-46c8-a3de-52c6b3fde5ee" />
+<img width="411" height="116" alt="Screenshot 2026-07-29 191304" src="https://github.com/user-attachments/assets/62685032-bb7c-42c5-9180-396d4b7c572c" />
+
 ---
 
 ### 2.4 Security & Cryptographic Auxiliary Utilities
@@ -52,7 +56,8 @@ Confirmed that essential encryption, certificate, and token generation tools are
 
 * **OpenSSL Binary Check:** `openssl version`[cite: 1]
 
-> **<img width="1042" height="124" alt="image" src="https://github.com/user-attachments/assets/f22c807e-7d73-400e-a195-2aa73a3405ba" />
+<img width="757" height="102" alt="Screenshot 2026-07-29 191328" src="https://github.com/user-attachments/assets/73d88dbc-25e1-4f29-93cf-e00e81badde0" />
+
 **
 ---
 
@@ -70,7 +75,9 @@ LocalStack was instantiated inside a Docker container to simulate core AWS API e
    aws configure set region us-east-1
    EP='--endpoint-url=http://localhost:4566'
    aws $EP sts get-caller-identity
-<img width="846" height="286" alt="image" src="https://github.com/user-attachments/assets/5bbb8f8c-47db-42e0-a4a4-b57f08e7bd99" />
+<img width="1877" height="188" alt="Screenshot 2026-07-27 203252" src="https://github.com/user-attachments/assets/08fbb456-6804-411e-9e4a-f2d3c5d18c7f" />
+<img width="630" height="212" alt="Screenshot 2026-07-29 195526" src="https://github.com/user-attachments/assets/ac6b3bdf-502a-4d2c-bb18-c7aa064db618" />
+<img width="632" height="263" alt="Screenshot 2026-07-29 195624" src="https://github.com/user-attachments/assets/0213392b-19e0-4607-8dd9-29e0f4eb8b09" />
 
 ### 3.2 Kubernetes Cluster Deployment (`kind`)
 A standalone Kubernetes cluster named ccse was instantiated via Docker and inspected with kubectl[cite: 1].
@@ -80,7 +87,10 @@ A standalone Kubernetes cluster named ccse was instantiated via Docker and inspe
    ```bash
    kubectl cluster-info --context kind-ccse
    kubectl get nodes
-<img width="1762" height="1088" alt="image" src="https://github.com/user-attachments/assets/5d27a676-1620-4087-9e5e-8942489a6fd5" />
+<img width="1335" height="687" alt="image" src="https://github.com/user-attachments/assets/3021a20c-b289-4ce1-8467-112d00df1487" />
+
+
+
 
 ## 4. Verification Checklist Summary
 
