@@ -26,6 +26,7 @@ LocalStack was started in a Docker container to simulate AWS IAM services locall
 2. **Start LocalStack:** `docker run -d --name localstack -p 4566:4566 localstack/localstack:3.0`
 4. **Health Check Endpoint:** `curl http://localhost:4566/_localstack/health`
 <img width="1882" height="252" alt="Screenshot 2026-07-31 224228" src="https://github.com/user-attachments/assets/209084fd-3739-4e66-856e-069b0f276c1a" />
+
 5. **Configure Dummy Credentials & Endpoint Variable:**
    ```bash
    aws configure set aws_access_key_id test
@@ -33,6 +34,7 @@ LocalStack was started in a Docker container to simulate AWS IAM services locall
    aws configure set region us-east-1
    EP='--endpoint-url=http://localhost:4566'
    aws $EP sts get-caller-identity
+   
 <img width="1010" height="415" alt="Screenshot 2026-07-31 224337" src="https://github.com/user-attachments/assets/380441d1-a8e8-4c2d-bb16-0745900efac6" />
 
 ## 3. Task 1: Mapping the Cloud Identity Landscape
