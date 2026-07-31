@@ -1,4 +1,4 @@
-# Lab 1 Report: Cloud Account Security, Identity & Access Management (Session A)
+# Lab 1 Report: Cloud Account Security, Identity & Access Management
 
 **Prepared by:** Ziyad Faruqi Bin Harith Faruqi
 
