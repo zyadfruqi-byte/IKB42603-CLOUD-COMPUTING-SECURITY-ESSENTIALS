@@ -1,9 +1,9 @@
 # Lab 3 Report: Data Protection — Encryption & Key Management
 
-**Prepared by:** [Your Full Name]
+**Prepared by:** Ziyad Faruqi Bin Harith Faruqi
 **Course:** IKB42603 Cloud Computing Security Essentials
-**Date:** [DD/MM/YYYY]
-**Environment:** [e.g. Kali Linux VM / Docker / LocalStack]
+**Date:** 21/08/2026
+**Environment:** Kali Linux VM
 
 ---
 
@@ -22,8 +22,6 @@ docker --version
 openssl version
 docker ps | grep localstack
 ```
-
-![Screenshot – environment setup](PASTE_SCREENSHOT_LINK_HERE)
 
 ---
 
@@ -48,7 +46,8 @@ openssl enc -d -aes-256-cbc -pbkdf2 -in record.enc -out record.dec.txt
 diff record.txt record.dec.txt && echo 'MATCH: decryption successful'
 ```
 
-![Screenshot – AES encrypt/decrypt with MATCH confirmation](PASTE_SCREENSHOT_LINK_HERE)
+<img width="949" height="473" alt="image" src="https://github.com/user-attachments/assets/ab5cca1b-248d-4256-ae58-6ba735bae6c5" />
+
 
 ---
 
@@ -70,7 +69,8 @@ openssl dgst -sha256 -sign private.pem -out record.sig record.txt
 openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 ```
 
-![Screenshot – RSA signature verify output showing "Verified OK"](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1061" height="342" alt="image" src="https://github.com/user-attachments/assets/9aaa9d32-14e8-4198-a090-af29b128c798" />
+
 
 ---
 
@@ -92,7 +92,10 @@ docker run --rm -d --name tls -p 8443:443 \
 curl -k https://localhost:8443/record.txt
 ```
 
-![Screenshot – curl output over TLS](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1887" height="257" alt="image" src="https://github.com/user-attachments/assets/b72b8be4-9a19-4a0f-8321-7fe5da477b4e" />
+<img width="1021" height="442" alt="image" src="https://github.com/user-attachments/assets/49608321-e9fe-4e9b-8a90-21ea21240ed1" />
+<img width="573" height="98" alt="image" src="https://github.com/user-attachments/assets/1532d55f-d397-446f-a3d8-c823e5212192" />
+
 
 *End of Session A. The TLS container was stopped (`docker stop tls`). `record.enc`, the RSA keys, and all outputs were retained for the report.*
 
@@ -122,7 +125,10 @@ aws $EP kms encrypt --key-id $KEY_A --plaintext "$(echo -n 'hello' | base64)" \
  --query CiphertextBlob --output text
 ```
 
-![Screenshot – KMS KeyId(s) and encrypt output](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1197" height="658" alt="image" src="https://github.com/user-attachments/assets/8a83dc11-80d8-46c0-8523-001df51673e4" />
+<img width="1528" height="184" alt="image" src="https://github.com/user-attachments/assets/570586be-f361-49ba-b310-f494691fc5da" />
+
+
 
 ---
 
@@ -146,7 +152,10 @@ rm datakey.bin datakey.b64
 echo 'Only the KMS-wrapped data key (datakey.enc) remains.'
 ```
 
-![Screenshot – envelope encryption steps](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1896" height="132" alt="image" src="https://github.com/user-attachments/assets/75adf7ec-3ccb-4a82-810d-aca84e1dfe4c" />
+<img width="1889" height="180" alt="image" src="https://github.com/user-attachments/assets/47e132f2-2f2a-4e6d-b720-c03dae6ad089" />
+<img width="788" height="131" alt="image" src="https://github.com/user-attachments/assets/ee7fdd81-d5f8-4cf4-a933-5d3c5305e1b7" />
+
 
 ---
 
@@ -169,7 +178,11 @@ aws $EP kms disable-key --key-id $KEY_A
 aws $EP kms decrypt --ciphertext-blob fileb://datakey.enc 2>&1 | head -3
 ```
 
-![Screenshot – failed kms decrypt after key erasure](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1190" height="600" alt="image" src="https://github.com/user-attachments/assets/2dde84d5-20e7-4bf1-a267-7c664040cb43" />
+<img width="1063" height="299" alt="image" src="https://github.com/user-attachments/assets/11adba40-a0c4-4dc5-b6e1-bfad1c430187" />
+<img width="587" height="74" alt="image" src="https://github.com/user-attachments/assets/f9b0c402-eaee-4063-92be-81a7a7f7ed1b" />
+<img width="1877" height="158" alt="image" src="https://github.com/user-attachments/assets/116e0a68-9eda-4f9c-b2b5-7f7c4e71a306" />
+
 
 ---
 
@@ -192,7 +205,8 @@ for line in 'login ok' 'file read' 'export data'; do \
  echo "$line | $PREV"; done
 ```
 
-![Screenshot – differing SHA-256 hashes and hash chain output](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1101" height="477" alt="image" src="https://github.com/user-attachments/assets/375beeb3-5a8d-4ad6-bf69-fc3024316f00" />
+
 
 ---
 
@@ -205,7 +219,8 @@ aws --endpoint-url=http://localhost:4566 kms list-keys
 openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 ```
 
-![Screenshot – verification command output](PASTE_SCREENSHOT_LINK_HERE)
+<img width="1299" height="437" alt="image" src="https://github.com/user-attachments/assets/b02efbc8-e726-4559-9985-44567652e6cd" />
+
 
 ---
 
