@@ -52,6 +52,11 @@ docker run --rm -d --name authsvc -p 8080:80 \
   curl -s -o /dev/null -w 'no-creds: %{http_code}\n' http://localhost:8080 # 401
   curl -s -u student:'P@ssw0rd!' http://localhost:8080 # 200 
 ```
+<img width="1072" height="331" alt="Screenshot 2026-08-30 201120" src="https://github.com/user-attachments/assets/938a62a8-4404-49fa-947a-17d392eb87c0" />
+<img width="997" height="210" alt="Screenshot 2026-08-30 201410" src="https://github.com/user-attachments/assets/a7ed6e5f-5243-4dc2-9710-e39f9571aaf4" />
+
+
+
 
 #### Task 2: Second Factor Authentication (MFA / TOTP)
 A 20-byte base32 shared secret was generated to simulate Time-Based One-Time Password (TOTP) enrolment. Dynamic passcodes were validated using oathtool.
@@ -67,6 +72,12 @@ read -p 'Enter 6-digit code: ' CODE
 [ "$CODE" = "$(oathtool --totp -b "$SECRET")" ] && echo 'MFA OK' || echo 'MFA FAILED'
 ```
 
+<img width="961" height="173" alt="Screenshot 2026-08-30 201551" src="https://github.com/user-attachments/assets/2ee03dbc-a147-46fd-98a1-b45f595ecafd" />
+<img width="1101" height="163" alt="Screenshot 2026-08-30 201620" src="https://github.com/user-attachments/assets/5076cd44-1127-417b-af69-7840499657d1" />
+
+
+
+
 #### Task 3: Authorization (Kubernetes RBAC Roles)
 A Kubernetes cluster was provisioned via `kind`. A ServiceAccount (`dev`) was created in namespace `app` with a Role permitting only `get` and `list` operations on pods.
 
@@ -81,6 +92,10 @@ kubectl create role dev-role -n app --verb=get,list --resource=pods
 kubectl create rolebinding dev-rb -n app --role=dev-role --serviceaccount=app:dev
 ```
 
+<img width="632" height="406" alt="Screenshot 2026-08-30 202244" src="https://github.com/user-attachments/assets/ddec6d6c-57af-48ad-8449-81adbf23de9c" />
+<img width="1045" height="292" alt="Screenshot 2026-08-30 202310" src="https://github.com/user-attachments/assets/1ff99049-499f-4919-98ec-4ec3e2317dac" />
+
+
 **Permission Verification (`kubectl auth can-i`):**
 ```bash
 SA="system:serviceaccount:app:dev"
@@ -89,6 +104,9 @@ kubectl auth can-i list pods -n app --as=$SA
 kubectl auth can-i create deploy -n app --as=$SA
 kubectl auth can-i delete pods -n app --as=$SA
 ```
+<img width="642" height="380" alt="Screenshot 2026-08-30 202325" src="https://github.com/user-attachments/assets/663b1192-1fa1-411b-bdeb-07ce5a18eaf4" />
+
+
 ### Session B: Network Security & Host Hardening
 
 #### Task 4: Network Segmentation (Three-Tier Architecture)
@@ -105,18 +123,23 @@ docker run -d --name app --network backend-net nginx:alpine
 docker network connect frontend-net app
 docker run -d --name web --network frontend-net nginx:alpine
 ```
+<img width="831" height="151" alt="Screenshot 2026-08-30 202358" src="https://github.com/user-attachments/assets/715a3c54-5d65-437b-b0c8-342ccae0101a" />
+<img width="1018" height="627" alt="Screenshot 2026-08-30 202856" src="https://github.com/user-attachments/assets/03f02e8b-1f8f-410b-adbb-c30acebee12b" />
 
-**Connectivity Verification:**[cite: 1]
+
+**Connectivity Verification:**
 * **`web` -> `db` direct access test (Should fail):**
   ```bash
   docker exec web sh -c 'apk add -q netcat-openbsd; nc -z -w 3 db 6379 || echo BLOCKED'
   ```
+<img width="1212" height="170" alt="Screenshot 2026-08-30 203218" src="https://github.com/user-attachments/assets/be2eb550-f3eb-4a74-b4e8-fcc014040281" />
 
 
 * **`app` -> `db` backend access test (Should succeed):**
   ```bash
   docker exec app sh -c 'apk add -q netcat-openbsd; nc -z -w 3 db 6379 && echo REACHABLE'
   ```
+<img width="1872" height="407" alt="Screenshot 2026-08-30 203154" src="https://github.com/user-attachments/assets/45182563-55d4-4e81-a75c-a016ebfd2b93" />
 
 
 #### Task 5: Firewall Rules (Default-Deny Model)
@@ -130,6 +153,8 @@ iptables -A INPUT -p tcp --dport 443 -j ACCEPT; \
 iptables -A INPUT -i lo -j ACCEPT; \
 iptables -L INPUT -n'
 ```
+<img width="1008" height="421" alt="Screenshot 2026-08-30 203306" src="https://github.com/user-attachments/assets/c5dec428-ede7-4595-802b-d243ecfca5a5" />
+
 
 #### Task 6: Container Hardening & Vulnerability Scanning
 An unprivileged Nginx container (`nginxinc/nginx-unprivileged`) was executed using defensive security configurations: non-root execution (`--user 1000:1000`), a read-only root filesystem (`--read-only`), dropping all Linux kernel capabilities (`--cap-drop ALL`), preventing privilege escalation (`--security-opt no-new-privileges`), and mounting a writable temporary filesystem at `/tmp` (`--tmpfs /tmp`). Additionally, the image was scanned for vulnerabilities using Trivy.
@@ -150,6 +175,11 @@ docker inspect hardened --format 'User={{.Config.User}} ReadOnly={{.HostConfig.R
 # Scan container image for HIGH and CRITICAL vulnerabilities
 docker run --rm aquasec/trivy image --severity HIGH,CRITICAL nginx:alpine | head -20
 ```
+
+<img width="1043" height="548" alt="Screenshot 2026-08-30 203507" src="https://github.com/user-attachments/assets/295520e4-ce01-4af8-93e0-0f836bd45e41" />
+<img width="1142" height="60" alt="Screenshot 2026-08-30 203721" src="https://github.com/user-attachments/assets/3586ae14-50e3-41cb-a5dd-04d263ff950d" />
+<img width="1851" height="498" alt="Screenshot 2026-08-30 203734" src="https://github.com/user-attachments/assets/b64583bc-c4c8-4670-b59b-e0e8f6c88c09" />
+
 
 ---
 
@@ -191,6 +221,8 @@ Network segmentation restricts communication channels between application layers
 ---
 
 ## 6. Verification Commands & Outputs
+
+<img width="811" height="590" alt="Screenshot 2026-08-30 203751" src="https://github.com/user-attachments/assets/4196f90b-7d37-4936-b1fc-05bbdee28285" />
 
 
 ---
