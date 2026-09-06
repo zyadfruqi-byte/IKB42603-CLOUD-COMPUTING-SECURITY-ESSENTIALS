@@ -38,6 +38,8 @@ cat > auth.log <<'EOF'
 2025-03-01T09:01:40 EXPORT DATA user=admin ip=203.0.113.9 size=500MB
 EOF
 ```
+<img width="950" height="463" alt="Screenshot 2026-09-06 212852" src="https://github.com/user-attachments/assets/b5f0f9dc-20c8-4a24-81ad-c1f251294a78" />
+
 
 #### Task 2: Centralise Logs (Ship to CloudWatch via LocalStack)
 LocalStack was initialized to emulate AWS CloudWatch Logs locally on port 4566. A target Log Group (`/ccse/app`) and Log Stream (`auth`) were created. The local audit log entries (`auth.log`) were iteratively transmitted to CloudWatch using the AWS CLI, and then retrieved from the central store to verify log shipping integrity.
@@ -55,6 +57,9 @@ done < auth.log
 aws $EP logs get-log-events --log-group-name /ccse/app --log-stream-name auth \
   --query 'events[].message' --output text
 ```
+<img width="1030" height="173" alt="Screenshot 2026-09-06 212916" src="https://github.com/user-attachments/assets/13725adc-f51c-47d8-b653-9b7f7a745464" />
+<img width="1867" height="173" alt="Screenshot 2026-09-06 212935" src="https://github.com/user-attachments/assets/24712f47-5c55-498c-b82b-7b3c1f70c810" />
+
 
 #### Task 3: Query for Security-Relevant Activity
 Targeted shell queries were executed against the log entries to filter security-relevant events[cite: 2]. Specifically, failed login attempts (`LOGIN_FAIL`) were extracted, parsed, sorted, and counted to identify brute-force patterns originating from specific IP addresses.
@@ -63,6 +68,7 @@ Targeted shell queries were executed against the log entries to filter security-
 # Query for failed login attempts and aggregate count per IP address
 grep LOGIN_FAIL auth.log | awk '{print $4, $5}' | sort | uniq -c
 ```
+<img width="890" height="95" alt="Screenshot 2026-09-06 212958" src="https://github.com/user-attachments/assets/4388a800-f6f3-49aa-ac0a-ec69cbbb247e" />
 
 
 ### Session B: Tamper-Proofing, Detection & Response
@@ -82,6 +88,9 @@ sed 's/500MB/5MB/' auth.log > auth.tampered
 PREV=0; BROKE=no
 paste -d'|' <(cut -d'|' -f1 auth.chain) <(cut -d'|' -f2 auth.chain) >/dev/null
 ```
+<img width="1742" height="380" alt="Screenshot 2026-09-06 213119" src="https://github.com/user-attachments/assets/b3a4e6d7-d0d2-448c-a55a-7d0049147feb" />
+<img width="1018" height="132" alt="Screenshot 2026-09-06 213139" src="https://github.com/user-attachments/assets/1d8e1282-d106-4dd7-bf46-ca0ae1754579" />
+
 
 #### Task 5: Incident Detection via Event Correlation
 
@@ -98,6 +107,9 @@ if [ "$FAILS" -ge 3 ] && [ "$SUCCESS" -ge 1 ] && [ "$EXPORT" -ge 1 ]; then
 fi
 ```
 
+<img width="950" height="302" alt="Screenshot 2026-09-06 213211" src="https://github.com/user-attachments/assets/c59c4ef3-0d8f-4913-abe4-cf9f652e4a03" />
+
+
 #### Task 6: Incident Response & Evidence Preservation
 
 Active containment was simulated by applying an iptables DROP rule for the malicious IP[cite: 2]. Evidence integrity was secured via timestamped copies and SHA-256 hash digests.
@@ -113,6 +125,8 @@ cp auth.log evidence_${TIMESTAMP}.log
 sha256sum evidence_*.log > evidence.sha256
 cat evidence.sha256
 ```
+<img width="1267" height="161" alt="Screenshot 2026-09-06 213329" src="https://github.com/user-attachments/assets/dec6c41a-c070-410c-9672-f95df439d1f6" />
+<img width="1127" height="205" alt="Screenshot 2026-09-06 213341" src="https://github.com/user-attachments/assets/ec19b18c-9590-4c4c-b724-cdc5bf20e7c2" />
 
 ---
 
@@ -155,6 +169,7 @@ An isolated `LOGIN FAIL` or individual `EXPORT DATA` request appears routine. SI
 
 ## 6. Verification Commands & Outputs
 
+<img width="1043" height="405" alt="Screenshot 2026-09-06 213404" src="https://github.com/user-attachments/assets/dc46d3de-9a60-4e92-893c-ed7bcd02a52b" />
 
 ---
 
