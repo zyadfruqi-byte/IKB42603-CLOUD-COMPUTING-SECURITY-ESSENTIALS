@@ -2,6 +2,7 @@
 ## Lab Report 5: Monitoring, Logging & Incident Detection
 
 **Prepared by:** Ziyad Faruqi Bin Harith Faruqi 
+
 **Course:** IKB42603 Cloud Computing Security Essentials  
 **Date:** 9/9/2026  
 **Environment:** Kali Linux VM / Docker / kind (Kubernetes)
