@@ -34,6 +34,8 @@ aws configure set region us-east-1
 aws $EP sts get-caller-identity
 ```
 
+<img width="585" height="196" alt="Screenshot 2026-09-11 200942" src="https://github.com/user-attachments/assets/8b6f7c77-66b3-422c-96b6-aefaf72ecb86" />
+
 ---
 
 ## 3. Implementation & Results
@@ -71,6 +73,12 @@ aws $EP s3api get-object-tagging --bucket $BUCKET --key confidential/record.txt
 ```
 
 **Output Verification:**
+<img width="616" height="118" alt="Screenshot 2026-09-11 200959" src="https://github.com/user-attachments/assets/948591e6-b02c-46a6-90e3-97c2dfdc965d" />
+<img width="631" height="147" alt="Screenshot 2026-09-11 201014" src="https://github.com/user-attachments/assets/335142c5-3d82-4ea8-bcfd-ad1cf11ad0dd" />
+<img width="1037" height="130" alt="Screenshot 2026-09-11 201032" src="https://github.com/user-attachments/assets/28cc6f49-3ac0-4a7e-bcfc-ad7f0f1ebd69" />
+<img width="1810" height="476" alt="Screenshot 2026-09-11 201235" src="https://github.com/user-attachments/assets/1613a5cd-7cff-4647-b800-d1d5d3a900f9" />
+<img width="678" height="267" alt="Screenshot 2026-09-11 201303" src="https://github.com/user-attachments/assets/487c89e8-3d3d-4b95-899a-4b102c0d1dea" />
+<img width="1070" height="281" alt="Screenshot 2026-09-11 201315" src="https://github.com/user-attachments/assets/9c06f467-f554-454d-9d00-80350de18600" />
 
 
 #### Task 2: Reproducing the Public Bucket Breach
@@ -99,10 +107,12 @@ cat leaked.txt
 ```
 
 **Output Verification:**
+<img width="1110" height="355" alt="Screenshot 2026-09-11 201342" src="https://github.com/user-attachments/assets/75e94d24-27c4-4588-9fd8-f7c14aea3ba5" />
+<img width="707" height="180" alt="Screenshot 2026-09-11 201406" src="https://github.com/user-attachments/assets/7f0e42e6-98a8-4f40-8469-1b103398d8c4" />
 
 
 #### Task 3: Remediation with Block Public Access
-The vulnerable public bucket policy was deleted and account-level Block Public Access guardrails were enabled[cite: 3]. A least-privilege bucket policy was then applied to restrict read access strictly to internal prefixes for the account owner identity[cite: 3].
+The vulnerable public bucket policy was deleted and account-level Block Public Access guardrails were enabled. A least-privilege bucket policy was then applied to restrict read access strictly to internal prefixes for the account owner identity.
 
 ```bash
 # 1. Remove the offending policy
@@ -122,6 +132,10 @@ curl -s -o /dev/null -w 'anonymous read now: HTTP %{http_code}\n' \
  ```
 
 **Output Verification:**
+<img width="1242" height="122" alt="Screenshot 2026-09-11 201548" src="https://github.com/user-attachments/assets/5194c578-3c57-47c5-89ec-ec28273bbe11" />
+<img width="767" height="268" alt="Screenshot 2026-09-11 201601" src="https://github.com/user-attachments/assets/adb3e5dc-0b30-4dfb-bf4c-2ebefcc3427d" />
+<img width="922" height="121" alt="Screenshot 2026-09-11 201747" src="https://github.com/user-attachments/assets/641ff5d7-1797-4297-a150-041e9dda42ec" />
+
 
 Write the policy you should have had: read access for your own account only, scoped to the
 internal prefix:
@@ -145,7 +159,8 @@ cat > least-privilege-policy.json <<JSON
 ```
 
 **Output Verification:**
-
+<img width="1191" height="397" alt="Screenshot 2026-09-11 201940" src="https://github.com/user-attachments/assets/30d4263b-6e94-4a72-903c-59c149719921" />
+<img width="1597" height="95" alt="Screenshot 2026-09-11 202003" src="https://github.com/user-attachments/assets/7be422e0-45a0-4d18-a340-26d7f900b3f7" />
 
 
 #### Task 4: Identity Policy vs. Resource Policy
@@ -185,6 +200,13 @@ cat > deny-confidential.json <<JSON "2012-10-17", "Action": "Allow", "AllowAnaly
 ```
 
 **Output Verification:**
+<img width="773" height="298" alt="Screenshot 2026-09-11 202023" src="https://github.com/user-attachments/assets/8f7bc510-ab66-4da9-a0b9-202ce3a83f1f" />
+<img width="892" height="377" alt="Screenshot 2026-09-11 202045" src="https://github.com/user-attachments/assets/af32abd3-43b9-432c-8be3-61e456e8272f" />
+<img width="937" height="125" alt="Screenshot 2026-09-11 202116" src="https://github.com/user-attachments/assets/78a46e15-ec04-44c1-91c7-82be1cafd565" />
+<img width="960" height="115" alt="Screenshot 2026-09-11 202132" src="https://github.com/user-attachments/assets/42b11821-e2ee-48d2-a6bf-44787bcdbf24" />
+<img width="1215" height="650" alt="Screenshot 2026-09-11 202156" src="https://github.com/user-attachments/assets/1920cfc3-f6df-4278-a92e-204e209e3a26" />
+<img width="1780" height="337" alt="Screenshot 2026-09-11 202216" src="https://github.com/user-attachments/assets/c17220b7-c883-4ce6-8c3b-fc968c4424ee" />
+<img width="1816" height="315" alt="Screenshot 2026-09-11 202231" src="https://github.com/user-attachments/assets/61bfac9b-9599-49d6-a3f3-a3f6ecf4a909" />
 
 
 ### Session B: Protecting, Retaining, and Retiring Data (Week 12)
@@ -226,6 +248,10 @@ aws $EP s3api delete-object --bucket $BUCKET --key confidential/record.txt --ver
 ```
 
 **Output Verification:**
+<img width="1808" height="118" alt="Screenshot 2026-09-11 202304" src="https://github.com/user-attachments/assets/cc728f5b-b91a-4d18-b591-e9316131fc93" />
+<img width="1490" height="380" alt="Screenshot 2026-09-11 202320" src="https://github.com/user-attachments/assets/9fae9c19-6309-4f8d-8de1-2a5875492b5e" />
+<img width="1880" height="282" alt="Screenshot 2026-09-11 202338" src="https://github.com/user-attachments/assets/6c2f3de0-6ff3-457f-a372-aa73e04cc846" />
+
 
 #### Task 6: Delegated Access and the Condition-Key Trap
 A presigned URL was generated to delegate time-bounded read access to an unauthenticated caller. Next, an `aws:SecureTransport` policy was tested to observe the lockout impact when applied against a plain HTTP endpoint.
@@ -247,6 +273,12 @@ cat > secure-transport.json <<JSON "*", "2012-10-17", "Action": "Condition": "De
 ```
 
 **Output Verification:**
+<img width="1011" height="146" alt="Screenshot 2026-09-11 202351" src="https://github.com/user-attachments/assets/8995c20c-6648-4730-9e81-5d47ca361e5f" />
+<img width="877" height="372" alt="Screenshot 2026-09-11 202404" src="https://github.com/user-attachments/assets/3caf1c4f-de07-4ceb-8ef2-e7ecc0af1c5d" />
+<img width="900" height="762" alt="Screenshot 2026-09-11 202450" src="https://github.com/user-attachments/assets/65d9c735-3a02-4f9e-bd1e-22bbc6caa184" />
+<img width="902" height="770" alt="Screenshot 2026-09-11 202515" src="https://github.com/user-attachments/assets/5e6527a6-c698-4374-b540-8fa23657fee4" />
+<img width="747" height="343" alt="Screenshot 2026-09-11 202525" src="https://github.com/user-attachments/assets/70cc2aa3-95a4-44f7-b1b6-789b2c803d91" />
+<img width="687" height="70" alt="Screenshot 2026-09-11 202543" src="https://github.com/user-attachments/assets/ea343154-f041-4d6e-ab6e-a35ce3d8e1b2" />
 
 
 #### Task 7: Versioning, Delete Markers & Data Remanence
@@ -300,6 +332,11 @@ aws $EP s3api list-object-versions --bucket $BUCKET \
   --query 'Versions[].[VersionId, Size]' --output table
 ```
 **Output Verification:**
+<img width="1427" height="617" alt="Screenshot 2026-09-11 202623" src="https://github.com/user-attachments/assets/f479a6a8-cfcd-4364-ba81-4de224b0721e" />
+<img width="1017" height="165" alt="Screenshot 2026-09-11 202640" src="https://github.com/user-attachments/assets/024c158a-8d1f-4f7e-ae69-d230b91b1909" />
+<img width="1482" height="121" alt="Screenshot 2026-09-11 202659" src="https://github.com/user-attachments/assets/3517360d-6ff0-4496-b289-3be471f012e7" />
+<img width="1385" height="391" alt="Screenshot 2026-09-11 202718" src="https://github.com/user-attachments/assets/bb4db204-efb2-4143-b1f9-7f0ced1d5f5c" />
+<img width="1237" height="145" alt="Screenshot 2026-09-11 202735" src="https://github.com/user-attachments/assets/809871c6-a69a-473b-8100-1513af043476" />
 
 
 #### Task 8: Lifecycle, Retention & Cryptographic Erasure
@@ -351,6 +388,9 @@ aws $EP s3api get-object --bucket $BUCKET \
 ```
 
 **Output Verification:**
+<img width="1557" height="575" alt="Screenshot 2026-09-11 202757" src="https://github.com/user-attachments/assets/c7d4c634-e6c4-4e69-b7fd-53fc0aebb10d" />
+<img width="1336" height="286" alt="Screenshot 2026-09-11 202814" src="https://github.com/user-attachments/assets/243d5a03-a995-4af9-a905-553a96dc4907" />
+<img width="1347" height="416" alt="Screenshot 2026-09-11 202936" src="https://github.com/user-attachments/assets/626d7b81-14d7-4952-86f8-6198c182e359" />
 
 
 ---
@@ -425,6 +465,7 @@ aws $EP kms describe-key --key-id $KEY_ID \
 ```
 
 **Verification Output:**
+<img width="1872" height="387" alt="Screenshot 2026-09-11 203016" src="https://github.com/user-attachments/assets/82764d86-82b2-4ac3-b6ed-ae55c114035c" />
 
 
 ---
